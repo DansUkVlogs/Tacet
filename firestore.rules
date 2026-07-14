@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function admin() { return signedIn() && request.auth.token.platformAdmin == true; }
+    function member(groupId) { return signedIn() && exists(/databases/$(database)/documents/groups/$(groupId)/members/$(request.auth.uid)); }
+    function role(groupId) { return get(/databases/$(database)/documents/groups/$(groupId)/members/$(request.auth.uid)).data.role; }
+    function groupLeader(groupId) { return member(groupId) && role(groupId) == 'groupLeader'; }
+    function sectionLeader(groupId) { return member(groupId) && role(groupId) == 'sectionLeader'; }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || admin());
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && request.auth.uid == uid && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['platformAdmin']);
+      allow delete: if admin();
+    }
+    match /memberships/{membershipId} {
+      allow read: if signedIn() && (resource.data.userId == request.auth.uid || admin());
+      allow write: if false;
+    }
+    match /absences/{absenceId} {
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid && request.resource.data.keys().hasOnly(['userId','startDate','endDate','reason','createdAt','updatedAt']);
+      allow read: if signedIn() && (resource.data.userId == request.auth.uid || admin());
+      allow update, delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+    match /groups/{groupId} {
+      allow read: if member(groupId) || admin();
+      allow create: if signedIn();
+      allow update: if groupLeader(groupId) || admin();
+      allow delete: if admin();
+
+      match /members/{uid} {
+        allow read: if member(groupId) || admin();
+        allow create: if signedIn();
+        allow update: if admin() || groupLeader(groupId) || sectionLeader(groupId);
+        allow delete: if admin() || groupLeader(groupId);
+      }
+      match /sections/{id} { allow read: if member(groupId) || admin(); allow write: if groupLeader(groupId) || admin(); }
+      match /parts/{id} { allow read: if member(groupId) || admin(); allow write: if groupLeader(groupId) || admin(); }
+      match /events/{eventId} {
+        allow read: if member(groupId) || admin();
+        allow create, update, delete: if groupLeader(groupId) || admin();
+        match /responses/{uid} {
+          allow read: if member(groupId) || admin();
+          allow write: if signedIn() && request.auth.uid == uid && !admin();
+        }
+      }
+      match /announcements/{id} {
+        allow read: if member(groupId) || admin();
+        allow create: if groupLeader(groupId) || sectionLeader(groupId);
+        allow update, delete: if groupLeader(groupId) || admin() || resource.data.createdBy == request.auth.uid;
+      }
+      match /invites/{id} { allow read, write: if false; }
+    }
+    match /auditLogs/{id} { allow read: if admin(); allow write: if false; }
+    match /system/{id} { allow read, write: if admin(); }
+  }
+}
