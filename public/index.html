@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0f172a"><title>Tacet</title>
+  <link rel="icon" href="/assets/img/tacet-logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/7e7edae2c0.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <div id="toastRoot" class="toast-root"></div>
+  <section id="authView" class="auth-shell">
+    <div class="auth-art"><img src="/assets/img/tacet-logo.svg" alt="Tacet logo"><div><span class="eyebrow">Music together</span><h1>Attendance without the admin headache.</h1><p>One absence covers every group. Rehearsals stay simple. Events stay organised.</p></div></div>
+    <div class="auth-panel">
+      <button class="icon-btn theme-toggle" data-action="theme" aria-label="Toggle colour theme"><i class="fa-solid fa-sun"></i></button>
+      <div class="brand"><span class="brand-mark"><i class="fa-solid fa-music"></i></span><strong>Tacet</strong></div>
+      <div class="tab-row"><button class="tab active" data-auth-tab="login">Sign in</button><button class="tab" data-auth-tab="register">Create account</button></div>
+      <form id="loginForm" class="stack">
+        <label>Email<input id="loginEmail" type="email" required autocomplete="email"></label>
+        <label>Password<input id="loginPassword" type="password" required autocomplete="current-password"></label>
+        <button class="text-btn" type="button" data-action="reset-password">Forgot password?</button>
+        <button class="primary" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Sign in</button>
+      </form>
+      <form id="registerForm" class="stack hidden">
+        <label>Full name<input id="registerName" required autocomplete="name"></label>
+        <label>Email<input id="registerEmail" type="email" required autocomplete="email"></label>
+        <label>Password<input id="registerPassword" type="password" minlength="6" required autocomplete="new-password"></label>
+        <button class="primary" type="submit"><i class="fa-solid fa-user-plus"></i> Create account</button>
+      </form>
+      <div class="divider"><span>or</span></div>
+      <button id="googleLogin" class="secondary full"><i class="fa-brands fa-google"></i> Continue with Google</button>
+    </div>
+  </section>
+
+  <div id="appView" class="app-shell hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard"><span class="brand-mark"><i class="fa-solid fa-music"></i></span><strong>Tacet</strong></a>
+      <nav id="mainNav">
+        <a href="#dashboard"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+        <a href="#absences"><i class="fa-solid fa-calendar-xmark"></i><span>My absences</span></a>
+        <a href="#groups"><i class="fa-solid fa-people-group"></i><span>My groups</span></a>
+        <a href="#events"><i class="fa-solid fa-calendar-days"></i><span>Events</span></a>
+        <a href="#announcements"><i class="fa-solid fa-bullhorn"></i><span>Announcements</span></a>
+        <a id="adminNav" class="hidden" href="#admin"><i class="fa-solid fa-shield-halved"></i><span>Platform admin</span></a>
+      </nav>
+      <div class="sidebar-bottom"><button class="nav-button" data-action="theme"><i class="fa-solid fa-sun"></i><span>Change theme</span></button><button class="nav-button" data-action="logout"><i class="fa-solid fa-right-from-bracket"></i><span>Sign out</span></button></div>
+    </aside>
+    <main>
+      <header class="topbar"><button class="icon-btn mobile-menu" data-action="menu"><i class="fa-solid fa-bars"></i></button><div><span class="eyebrow" id="pageEyebrow">Tacet</span><h2 id="pageTitle">Dashboard</h2></div><div class="user-chip"><span id="userInitials">U</span><div><strong id="userName">User</strong><small id="userEmail"></small></div></div></header>
+      <section id="pageContent" class="page-content"></section>
+    </main>
+  </div>
+  <dialog id="modal"><form method="dialog"><button class="icon-btn modal-close" value="cancel"><i class="fa-solid fa-xmark"></i></button><div id="modalContent"></div></form></dialog>
+  <script type="module" src="/assets/js/app.js"></script>
+</body></html>
