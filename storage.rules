@@ -1,0 +1,17 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function isPlatformAdmin() { return signedIn() && request.auth.token.platformAdmin == true; }
+    function groupLeader(groupId) {
+      return signedIn() && firestore.get(/databases/(default)/documents/groups/$(groupId)/members/$(request.auth.uid)).data.role == 'groupLeader';
+    }
+    match /group-logos/{groupId}/{fileName} {
+      allow read: if signedIn();
+      allow write: if (isPlatformAdmin() || groupLeader(groupId))
+        && request.resource.size < 1024 * 1024
+        && request.resource.contentType.matches('image/(png|jpeg|webp)');
+    }
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}
