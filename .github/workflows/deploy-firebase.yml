@@ -1,0 +1,32 @@
+name: Deploy Tacet to Firebase
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install function dependencies
+        run: npm install --prefix functions
+
+      - name: Deploy Firebase resources
+        uses: w9jds/firebase-action@v13.21.0
+        with:
+          args: deploy --project band-diary --non-interactive
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BAND_DIARY }}
+          PROJECT_ID: band-diary
