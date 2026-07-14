@@ -1,0 +1,8 @@
+{
+  "indexes": [
+    {"collectionGroup":"memberships","queryScope":"COLLECTION_GROUP","fields":[{"fieldPath":"userId","order":"ASCENDING"},{"fieldPath":"status","order":"ASCENDING"}]},
+    {"collectionGroup":"absences","queryScope":"COLLECTION","fields":[{"fieldPath":"userId","order":"ASCENDING"},{"fieldPath":"startDate","order":"ASCENDING"}]},
+    {"collectionGroup":"events","queryScope":"COLLECTION","fields":[{"fieldPath":"date","order":"ASCENDING"},{"fieldPath":"createdAt","order":"DESCENDING"}]}
+  ],
+  "fieldOverrides": []
+}
