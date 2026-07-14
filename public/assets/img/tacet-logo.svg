@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" role="img" aria-labelledby="title desc">
+  <title id="title">Tacet</title>
+  <desc id="desc">Tacet music attendance logo</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+  <rect width="900" height="500" rx="42" fill="#0f172a"/>
+  <g transform="translate(450 160)" fill="none" stroke="url(#g)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-150 15C-105-55-35-62 0-20C34-62 104-55 150 15"/>
+    <path d="M-150 15C-105 88-35 92 0 50C34 92 104 88 150 15"/>
+    <path d="M0-20V78"/>
+    <circle cx="-150" cy="15" r="22" fill="#2dd4bf" stroke="none"/>
+    <circle cx="150" cy="15" r="22" fill="#38bdf8" stroke="none"/>
+  </g>
+  <text x="450" y="335" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="112" font-weight="800" fill="#f1f5f9">Tacet</text>
+  <text x="450" y="398" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="5" fill="#2dd4bf">MUSIC TOGETHER. ATTEND WITH EASE.</text>
+</svg>
